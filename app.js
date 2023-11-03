@@ -6,7 +6,13 @@ const app = express();
 import dbConnection from './db.js';
 import blog from './routes/blogRoute.js';
 import user from './routes/userRoute.js';
+import path from 'path';
 import cors from 'cors';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const port = process.env.PORT || 8000;
 
 dbConnection();
