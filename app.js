@@ -13,7 +13,9 @@ dbConnection();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static('public'))
+// app.use(express.static('public'));
+app.use('/files', express.static(path.join(__dirname, 'public')));
+app.use('/userImages', express.static(path.join(__dirname, 'public')));
 app.use(cors({ origin: "https://blogify-me.vercel.app", credentials: true }));
 app.use("/blog", blog);
 app.use("/user", user);
