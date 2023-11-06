@@ -1,5 +1,4 @@
 import multer from "multer";
-const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (
@@ -13,6 +12,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   limits: {
@@ -22,7 +22,6 @@ const upload = multer({
 });
 
 const mystorage = multer.memoryStorage();
-
 export const userImgupload = multer({
   storage: mystorage,
   limits: {

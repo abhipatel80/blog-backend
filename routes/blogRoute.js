@@ -151,10 +151,10 @@ router.put("/edit/:id", auth, uploadfile.single("file"), async (req, res) => {
   try {
     let blogImage;
     if (req?.file) {
-      blogImage = req?.file?.filename;
+      const file = getDatauri(req.file);
+      const uploadFile = await uploader.upload(file.content);
+      blogImage = uploadFile.secure_url;
     }
-
-    const oldBlog = await blogModel.findById(req.params.id);
 
     const data = await blogModel.findByIdAndUpdate(
       req.params.id,
@@ -162,20 +162,12 @@ router.put("/edit/:id", auth, uploadfile.single("file"), async (req, res) => {
         $set: {
           title: req.body.title,
           description: req.body.description,
-          blogImage: "/files/" + blogImage,
+          blogImage,
         },
       },
       { new: true }
     );
 
-    fs.unlink(
-      "E:/Encircle technology/9projects/blog app/backend/public" +
-        oldBlog.blogImage,
-      (err) => {
-        if (err) return console.log(err);
-        console.log("blogimage deleted successfully");
-      }
-    );
     res.status(201).json(data);
   } catch (e) {
     console.log(e);
