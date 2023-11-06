@@ -6,12 +6,12 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import { jsontoken } from "../utils/jwt.js";
 import { auth } from "../middleware/auth.js";
-import { userImgupload } from "../utils/upload.js";
+import upload from "../utils/upload.js";
 import getDatauri from "../utils/dataUri.js";
 import { uploader } from "../utils/cloudinaryConfig.js";
 
 // register user
-router.post("/register", userImgupload.single("userImg"), async (req, res) => {
+router.post("/register", upload.single("userImg"), async (req, res) => {
   try {
     let userImage;
     if (req?.file) {
@@ -90,36 +90,31 @@ router.get("/:id", auth, async (req, res) => {
 });
 
 // update user
-router.put(
-  "/edit/:id",
-  auth,
-  userImgupload.single("userImg"),
-  async (req, res) => {
-    try {
-      let userImage;
-      if (req?.file) {
-        const file = getDatauri(req.file);
-        const uploadFile = await uploader.upload(file.content);
-        userImage = uploadFile.secure_url;
-      }
-
-      const data = await userModel.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: {
-            name: req.body.name,
-            email: req.body.email,
-            image: userImage,
-          },
-        },
-        { new: true }
-      );
-      res.status(201).json(data);
-    } catch (e) {
-      console.log(e);
+router.put("/edit/:id", auth, upload.single("userImg"), async (req, res) => {
+  try {
+    let userImage;
+    if (req?.file) {
+      const file = getDatauri(req.file);
+      const uploadFile = await uploader.upload(file.content);
+      userImage = uploadFile.secure_url;
     }
+
+    const data = await userModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+          image: userImage,
+        },
+      },
+      { new: true }
+    );
+    res.status(201).json(data);
+  } catch (e) {
+    console.log(e);
   }
-);
+});
 
 // delete user
 router.delete("/delete/:id", auth, async (req, res) => {
