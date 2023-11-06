@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 dotenv.config('.env');
 
 import express from 'express';
-const app = express();
 import dbConnection from './db.js';
 import blog from './routes/blogRoute.js';
 import user from './routes/userRoute.js';
@@ -16,6 +15,7 @@ const __dirname = dirname(__filename);
 const port = process.env.PORT || 8000;
 
 dbConnection();
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
