@@ -11,7 +11,7 @@ const blogSchema = mongoose.Schema({
         type: String,
         required: true,
         minlength: [50, "description must be atleast 50 characters"],
-        maxlength: [1000, "description not be greater than 1000 characters"],
+        maxlength: [2000, "description not be greater than 2000 characters"],
     },
     blogImage: {
         type: String,

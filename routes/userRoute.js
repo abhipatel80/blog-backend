@@ -28,7 +28,7 @@ router.post("/register", userImgupload.single("userImg"), async (req, res) => {
 
         const bcrpass = await bcrypt.hash(password, 10);
         const user = await userModel.create({ name, email, password: bcrpass, image: "/userImages/" + userImage, });
-        const token = await jsontoken(user._id);
+        const token = jsontoken(user._id);
         return res.status(201).json({ token, user });
     } catch (e) {
         console.log(e);
@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
         if (!email || !password) {
             return res.status(401).json("Please fill all data");
         }
-
+ 
         const user = await userModel.findOne({ email });
         if (!user) {
             return res.status(401).json("Email or Password are Incorrect");
@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
             return res.status(401).json("Email or Password are Incorrect");
         }
 
-        const token = await jsontoken(user._id);
+        const token = jsontoken(user._id);
         return res.status(201).json({ token, user });
 
     } catch (e) {

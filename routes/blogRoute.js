@@ -16,11 +16,17 @@ router.post("/add", auth, upload.single("file"), async (req, res) => {
         if (!title || !description || !blogImage) {
             return res.status(400).json("Please fill all data");
         };
-        if (title.split("").length <= 10) {
+        if (title.split("").length < 10) {
             return res.status(401).json("title must be atleast 10 characters");
         }
-        if (description.split("").length <= 50) {
+        if (description.split("").length < 50) {
             return res.status(401).json("description must be atleast 50 characters");
+        }
+        if (title.split("").length > 40) {
+            return res.status(401).json("title not be greater than 40 characters");
+        }
+        if (description.split("").length > 2000) {
+            return res.status(401).json("description not be greater than 2000 characters");
         }
         const data = await blogModel.create({
             title,

@@ -29,4 +29,4 @@ app.use("/user", user);
 
 app.listen(port, () => {
     console.log(`Application Listening on port ${port}`);
-});
+}); 
