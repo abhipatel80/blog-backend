@@ -139,7 +139,9 @@ router.get("/get", async (req, res) => {
 // get single blog
 router.get("/get/:id", async (req, res) => {
   try {
-    const data = await blogModel.findById(req.params.id);
+    const data = await blogModel
+      .findById(req.params.id)
+      .populate("userId", "name image");
     res.status(201).json(data);
   } catch (e) {
     console.log(e);
