@@ -3,7 +3,6 @@ const router = express();
 import blogModel from "../models/blogModel.js";
 import { auth } from "../middleware/auth.js";
 import uploadfile from "../utils/upload.js";
-import fs from "fs";
 import { uploader } from "../utils/cloudinaryConfig.js";
 import getDatauri from "../utils/dataUri.js";
 
@@ -43,7 +42,6 @@ router.post("/add", auth, uploadfile.single("file"), async (req, res) => {
     });
     return res.status(201).json(data);
   } catch (e) {
-    console.log(e.message);
     return res.status(401).json(e);
   }
 });
